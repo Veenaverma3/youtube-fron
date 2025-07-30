@@ -55,7 +55,7 @@ const SideNavbar = () => (
         key={n}
         className="flex items-center space-x-3 px-4 py-2 hover:bg-gray-200 rounded-md cursor-pointer"
       >
-        <img src="https://via.placeholder.com/28" alt="Channel" className="w-6 h-6 rounded-full" />
+        <img src="" alt="Channel" className="w-6 h-6 rounded-full" />
         <span className="text-sm text-gray-800">Channel {n}</span>
       </div>
     ))}

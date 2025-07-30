@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Login from "../../Pages/Login";
 import Profile from "../../Pages/Profile";
+import { url } from "../url";
 
 const Navbar = ({ setSideNavbarFunc, sideNavbar, handleUserAction }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -43,7 +44,7 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, handleUserAction }) => {
 
     if (type === "logout") {
       try {
-        await axios.post("http://localhost:4000/auth/logout", {}, {
+        await axios.post(`${url}/auth/logout`, {}, {
           withCredentials: true,
         });
       } catch (err) {

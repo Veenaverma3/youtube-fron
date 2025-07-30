@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { url } from '../Component/url';
 
 const CLOUD_NAME = 'dbgekulid';
 const UPLOAD_PRESET = 'youtube-clone';
@@ -77,7 +78,7 @@ const UploadVideo = () => {
     const normalizedCategory = typeof category === 'string' ? category.trim().toLowerCase() : '';
   
     await axios.post(
-  'http://localhost:4000/api/upload',
+  `${url}/api/upload`,
   {
     title: videoTitle,
     description,

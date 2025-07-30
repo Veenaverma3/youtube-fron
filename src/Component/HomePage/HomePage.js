@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
  import { Link } from "react-router-dom";
 import axios from "axios";
-
+import { url } from "../url";
 const HomePage = ({ selectedCategory }) => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:4000/api/allvideo")
+    axios.get(`${url}/api/allvideo`)
       .then((res) => setVideos(res.data))
       .catch((err) => console.error("Error fetching videos:", err))
       .finally(() => setLoading(false));

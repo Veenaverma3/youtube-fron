@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import { url } from '../Component/url';
 
 const Profile = () => {
   const { userId } = useParams();
@@ -11,7 +12,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get(`http://localhost:4000/api/${userId}/channel`);
+        const res = await axios.get(`${url}/api/${userId}/channel`);
         setUser(res.data.user);
         setVideos(res.data.videos);
       } catch (err) {

@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { url } from '../Component/url';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -53,7 +54,7 @@ const Signup = () => {
 
       const updatedFormData = { ...formData, profilePic: profilePicUrl };
 
-      const response = await axios.post('http://localhost:4000/auth/signup', updatedFormData);
+      const response = await axios.post(`${url}/auth/signup`, updatedFormData);
 
       toast.success('Signup successful!');
       const user = response.data.user;

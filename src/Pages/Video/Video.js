@@ -1,6 +1,8 @@
  import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { url } from "../../Component/url";
+
 import {
   ThumbUpOutlined,
   ThumbDownOutlined,
@@ -24,10 +26,10 @@ const VideoPage = () => {
     const fetchData = async () => {
       try {
         const [videoRes, commentsRes, allVideosRes, userRes] = await Promise.all([
-          axios.get(`http://localhost:4000/api/getvideobyid/${id}`),
-          axios.get(`http://localhost:4000/commentapi/comments/${id}`),
-          axios.get("http://localhost:4000/api/allvideo"),
-          axios.get("http://localhost:4000/auth/me", { withCredentials: true }),
+       axios.get(`${url}/api/getvideobyid/${id}`),
+axios.get(`${url}/commentapi/comments/${id}`),
+axios.get(`${url}/api/allvideo`),
+axios.get(`${url}/auth/me`, { withCredentials: true }),
         ]);
 
         setVideo(videoRes.data.video);
@@ -47,12 +49,12 @@ const VideoPage = () => {
     if (!message.trim()) return;
     try {
       await axios.post(
-        "http://localhost:4000/commentapi/comment",
-        { video: video._id, message },
-        { withCredentials: true }
-      );
+  `${url}/commentapi/comment`,
+  { video: video._id, message },
+  { withCredentials: true }
+);
       setMessage("");
-      const res = await axios.get(`http://localhost:4000/commentapi/comments/${id}`);
+      const res = await axios.get(`${url}/commentapi/comments/${id}`);
       setComments(res.data.comments);
     } catch (err) {
       alert("Please login to comment.");
@@ -62,7 +64,7 @@ const VideoPage = () => {
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this video?")) return;
     try {
-      await axios.delete(`http://localhost:4000/api/delete/${video._id}`, {
+      await axios.delete(`${url}/api/delete/${video._id}`, {
         withCredentials: true,
       });
       navigate("/");
