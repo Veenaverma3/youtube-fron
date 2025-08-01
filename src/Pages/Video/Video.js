@@ -24,6 +24,7 @@ const VideoPage = () => {
         axios.get(`${url}/api/getvideobyid/${id}`),
         axios.get(`${url}/commentapi/comments/${id}`),
       ]);
+  
       setVideo(videoRes.data.video);
       setComments(commentsRes.data.comments);
     } catch (err) {
@@ -44,50 +45,60 @@ const VideoPage = () => {
     fetchData();
   }, [id]);
 
-  const handleLike = async () => {
-    try {
-      await axios.put(`${url}/api/like/${video._id}`);
-      fetchVideo();
-    } catch {
-      alert("Like failed.");
-    }
-  };
+    
 
-  const handleDislike = async () => {
-    try {
-      await axios.put(`${url}/api/dislike/${video._id}`);
-      fetchVideo();
-    } catch {
-      alert("Dislike failed.");
-    }
-  };
-
-  const handleComment = async () => {
-    if (!message.trim()) return;
-    try {
-      const commentUser = {
-        userName: "GuestUser",
-        profilePic: "https://i.pravatar.cc/50", // replace with real default
-      };
-
-      await axios.post(`${url}/commentapi/comment`, {
+ const handleComment = async () => {
+  if (!message.trim()) return;
+  try {
+    await axios.post(
+      `${url}/commentapi/comment`,
+      {
         video: video._id,
         message,
-        user: commentUser, // pass full user info if backend allows
-      });
+      },
+      {
+        withCredentials: true, // include cookie with token
+      }
+    );
 
-      setMessage("");
-      fetchVideo();
-    } catch (err) {
-      console.error("Failed to comment", err);
-    }
-  };
+    setMessage("");
+    fetchVideo(); // refetch to get new comments
+  } catch (err) {
+    console.error("Failed to comment", err);
+    alert("Login required to comment.");
+  }
+};
+
+const handleLike = async () => {
+  try {
+    await axios.put(`${url}/api/like/${video._id}`, {}, {
+      withCredentials: true,
+    });
+    fetchVideo();
+  } catch (err) {
+    console.error("Like error:", err);
+    alert("Login required to like.");
+  }
+};
+const handleDislike = async () => {
+  try {
+    await axios.put(`${url}/api/dislike/${video._id}`, {}, {
+      withCredentials: true,
+    });
+    fetchVideo();
+  } catch (err) {
+    console.error("Dislike error:", err);
+    alert("Login required to dislike.");
+  }
+};
 
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this video?")) return;
     try {
-      await axios.delete(`${url}/api/delete/${video._id}`);
-      navigate("/");
+      await axios.delete(`${url}/api/delete/${video._id}`,{
+        withCredentials: true,
+      });
+       navigate("/");
     } catch {
       alert("Failed to delete video.");
     }
