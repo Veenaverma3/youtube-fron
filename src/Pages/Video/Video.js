@@ -21,10 +21,10 @@ const VideoPage = () => {
   const fetchVideo = async () => {
     try {
       const [videoRes, commentsRes] = await Promise.all([
-        axios.get(`${url}/api/getvideobyid/${id}`),
+        axios.get(`${url}/api/getvideobyid/${id}`,{withCredentials: true}),
         axios.get(`${url}/commentapi/comments/${id}`),
       ]);
-  
+      
       setVideo(videoRes.data.video);
       setComments(commentsRes.data.comments);
     } catch (err) {
