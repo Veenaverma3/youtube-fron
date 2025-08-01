@@ -1,5 +1,5 @@
- import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+  import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { url } from "../../Component/url";
 import {
@@ -16,6 +16,7 @@ const VideoPage = () => {
   const [video, setVideo] = useState(null);
   const [comments, setComments] = useState([]);
   const [message, setMessage] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
   const [allVideos, setAllVideos] = useState([]);
 
   const fetchVideo = async () => {
@@ -35,10 +36,14 @@ const VideoPage = () => {
     const fetchData = async () => {
       try {
         await fetchVideo();
-        const allVideosRes = await axios.get(`${url}/api/allvideo`);
+        const [userRes, allVideosRes] = await Promise.all([
+          axios.get(`${url}/auth/me`, { withCredentials: true }),
+          axios.get(`${url}/api/allvideo`),
+        ]);
+        setCurrentUser(userRes.data.user);
         setAllVideos(allVideosRes.data);
       } catch (err) {
-        console.error("Error fetching videos", err);
+        console.error("User or suggested videos fetch failed", err);
       }
     };
     fetchData();
@@ -46,40 +51,34 @@ const VideoPage = () => {
 
   const handleLike = async () => {
     try {
-      await axios.put(`${url}/api/like/${video._id}`);
+      await axios.put(`${url}/api/like/${video._id}`, {}, { withCredentials: true });
       fetchVideo();
     } catch {
-      alert("Like failed.");
+      alert("Login to like the video.");
     }
   };
 
   const handleDislike = async () => {
     try {
-      await axios.put(`${url}/api/dislike/${video._id}`);
+      await axios.put(`${url}/api/dislike/${video._id}`, {}, { withCredentials: true });
       fetchVideo();
     } catch {
-      alert("Dislike failed.");
+      alert("Login to dislike the video.");
     }
   };
 
   const handleComment = async () => {
     if (!message.trim()) return;
     try {
-      const commentUser = {
-        userName: "GuestUser",
-        profilePic: "https://i.pravatar.cc/50", // replace with real default
-      };
-
-      await axios.post(`${url}/commentapi/comment`, {
-        video: video._id,
-        message,
-        user: commentUser, // pass full user info if backend allows
-      });
-
+      await axios.post(
+        `${url}/commentapi/comment`,
+        { video: video._id, message },
+        { withCredentials: true }
+      );
       setMessage("");
       fetchVideo();
-    } catch (err) {
-      console.error("Failed to comment", err);
+    } catch {
+      alert("Login to comment.");
     }
   };
 
@@ -96,19 +95,23 @@ const VideoPage = () => {
   if (!video) return <div className="p-6 text-center">Loading video...</div>;
 
   const suggestedVideos = allVideos.filter((v) => v._id !== video._id);
+  const isOwner = currentUser?._id === video.user?._id;
 
   return (
     <div className="flex flex-col lg:flex-row max-w-7xl mx-auto p-4 lg:space-x-6">
       <div className="w-full lg:w-[70%] space-y-6">
-        {/* Video */}
+        {/* Video player */}
         <div className="w-full aspect-video bg-black rounded-xl overflow-hidden">
-          <video className="w-full h-full object-contain" src={video.videoFile} controls autoPlay />
+          <video
+            className="w-full h-full object-contain"
+            src={video.videoFile}
+            controls
+            autoPlay
+          />
         </div>
 
-        {/* Title */}
+        {/* Title and uploader info */}
         <h2 className="text-2xl font-semibold">{video.title}</h2>
-
-        {/* Info */}
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3">
             <img
@@ -122,6 +125,7 @@ const VideoPage = () => {
             </div>
           </div>
 
+          {/* Like/Dislike/Delete */}
           <div className="flex gap-2">
             <button
               onClick={handleLike}
@@ -135,12 +139,14 @@ const VideoPage = () => {
             >
               <ThumbDownOutlined fontSize="small" /> Dislike
             </button>
-            <button
-              onClick={handleDelete}
-              className="flex items-center gap-2 px-3 py-2 rounded bg-red-200 text-red-700 hover:bg-red-300"
-            >
-              <DeleteOutline fontSize="small" /> Delete
-            </button>
+            {isOwner && (
+              <button
+                onClick={handleDelete}
+                className="flex items-center gap-2 px-3 py-2 rounded bg-red-200 text-red-700 hover:bg-red-300"
+              >
+                <DeleteOutline fontSize="small" /> Delete
+              </button>
+            )}
           </div>
         </div>
 
@@ -170,18 +176,9 @@ const VideoPage = () => {
           </div>
           <div className="space-y-4">
             {comments.map((comment) => (
-              <div key={comment._id} className="p-3 bg-white rounded shadow-sm flex gap-3">
-                <img
-                  src={comment.user?.profilePic || "/default-profile.png"}
-                  alt="user"
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-                <div>
-                  <Link to={`/profile/${comment.user?._id}`} className="font-semibold text-blue-600 hover:underline">
-                    {comment.user?.userName || "Anonymous"}
-                  </Link>
-                  <p className="text-gray-700">{comment.message}</p>
-                </div>
+              <div key={comment._id} className="p-3 bg-white rounded shadow-sm">
+                <p className="text-sm font-semibold text-gray-700">{comment.user?.userName}</p>
+                <p className="text-gray-600">{comment.message}</p>
               </div>
             ))}
           </div>
