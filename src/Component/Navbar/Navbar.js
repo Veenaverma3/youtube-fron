@@ -6,15 +6,11 @@ import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 import VideoCallIcon from "@mui/icons-material/VideoCall";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import Login from "../../Pages/Login";
-import Profile from "../../Pages/Profile";
-import { url } from "../url";
 
 const Navbar = ({ setSideNavbarFunc, sideNavbar, handleUserAction }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
+  const [showLogin, setShowLogin] = useState(true);
   const [showProfile, setShowProfile] = useState(false);
   const [userProfilePic, setUserProfilePic] = useState(null);
   const dropdownRef = useRef(null);
@@ -31,26 +27,23 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, handleUserAction }) => {
 
   const toggleSideNavbar = () => setSideNavbarFunc(!sideNavbar);
 
-  const handlePopupClick = async (type) => {
+  const handlePopupClick = (type) => {
     setShowLogin(false);
     setShowProfile(false);
     setDropdownOpen(false);
 
-    if (type === "login") window.location.href = "/login";
-    if (type === "profile"){
+    if (type === "login") {
+      window.location.href = "/login";
+    }
+
+    if (type === "profile") {
       const userId = localStorage.getItem("userId");
-      if (userId) window.location.href = `/profile/${userId}`;
+      if (userId) {
+        window.location.href = `/profile/${userId}`;
+      }
     }
 
     if (type === "logout") {
-      try {
-        await axios.post(`${url}/auth/logout`, {}, {
-          withCredentials: true,
-        });
-      } catch (err) {
-        console.error("Logout error:", err);
-      }
-
       localStorage.clear();
       setUserProfilePic(null);
       setShowLogin(true);
@@ -82,7 +75,7 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, handleUserAction }) => {
             <div className="flex items-center space-x-1">
               <YouTubeIcon sx={{ fontSize: "32px", color: "red" }} />
               <span className="text-xl font-semibold tracking-tight hidden sm:inline">
-                YouTube
+                MyTube
               </span>
             </div>
           </Link>
@@ -142,24 +135,29 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, handleUserAction }) => {
           {/* Dropdown */}
           {dropdownOpen && (
             <div className="absolute right-0 top-12 bg-white border border-gray-200 rounded-md shadow-md py-2 w-40 z-50">
-              <button
-                onClick={() => handlePopupClick("profile")}
-                className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-              >
-                Profile
-              </button>
-              <button
-                onClick={() => handlePopupClick("login")}
-                className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-              >
-                Login
-              </button>
-              <button
-                onClick={() => handlePopupClick("logout")}
-                className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-              >
-                Logout
-              </button>
+              {showProfile && (
+                <button
+                  onClick={() => handlePopupClick("profile")}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                >
+                  Profile
+                </button>
+              )}
+              {showLogin ? (
+                <button
+                  onClick={() => handlePopupClick("login")}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                >
+                  Login
+                </button>
+              ) : (
+                <button
+                  onClick={() => handlePopupClick("logout")}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              )}
             </div>
           )}
         </div>
@@ -178,7 +176,6 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, handleUserAction }) => {
           </div>
         )}
       </div>
-
     </>
   );
 };

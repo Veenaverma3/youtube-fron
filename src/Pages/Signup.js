@@ -25,11 +25,10 @@ const Signup = () => {
 
   const handleImageUpload = async () => {
     if (!selectedFile) return '';
-
     const uploadData = new FormData();
     uploadData.append('file', selectedFile);
-    uploadData.append('upload_preset', 'youtube-clone'); // Replace with your preset
-    uploadData.append('cloud_name', 'dbgekulid'); // Replace with your Cloudinary name
+    uploadData.append('upload_preset', 'youtube-clone');
+    uploadData.append('cloud_name', 'dbgekulid');
 
     try {
       const response = await fetch("https://api.cloudinary.com/v1_1/dbgekulid/image/upload", {
@@ -50,16 +49,17 @@ const Signup = () => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      let profilePicUrl = await handleImageUpload();
-
+      const profilePicUrl = await handleImageUpload();
       const updatedFormData = { ...formData, profilePic: profilePicUrl };
 
-      const response = await axios.post(`${url}/auth/signup`, updatedFormData);
+      const response = await axios.post(`${url}/auth/signup`, updatedFormData, {
+        withCredentials: true,
+      });
 
-      toast.success('Signup successful!');
+      toast.success('Signup successful! Redirecting...');
       const user = response.data.user;
 
-      localStorage.setItem("token", response.data.token);
+      // Optional: Store minimal info for use in frontend
       localStorage.setItem("userId", user._id);
       localStorage.setItem("userProfilePic", user.profilePic);
 
