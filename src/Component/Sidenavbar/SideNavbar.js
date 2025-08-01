@@ -8,7 +8,7 @@ import {
 } from '@mui/icons-material';
 
 const SidebarItem = ({ icon: Icon, label, to }) => (
-  <Link to={"/"} className="no-underline">
+  <Link to={to} className="no-underline">
     <div className="flex items-center space-x-4 px-4 py-2 hover:bg-gray-200 rounded-md cursor-pointer transition duration-200">
       <Icon className="text-gray-700" />
       <span className="text-sm font-medium text-gray-800">{label}</span>
@@ -32,7 +32,7 @@ const YOU_SECTION = [
   { icon: ContentCutIcon, label: 'Your Clips', to: '/clips' },
 ];
 
-const SideNavbar = () => (
+const SideNavbar = ({ user }) => (
   <div className="w-80 h-full bg-white border-r p-2 space-y-3 overflow-y-auto hidden md:block">
     {MAIN_ITEMS.map((item) => (
       <SidebarItem key={item.label} {...item} />
@@ -50,15 +50,21 @@ const SideNavbar = () => (
 
     <hr />
     <div className="px-4 text-xs text-gray-500 font-semibold mt-2">Subscriptions</div>
-    {[1, 2, 3].map((n) => (
+
+    {user ? (
       <div
-        key={n}
         className="flex items-center space-x-3 px-4 py-2 hover:bg-gray-200 rounded-md cursor-pointer"
       >
-        <img src="" alt="Channel" className="w-6 h-6 rounded-full" />
-        <span className="text-sm text-gray-800">Channel {n}</span>
+        <img
+          src={user?.profilePic || "/default-profile.png"}
+          alt="User Profile"
+          className="w-8 h-8 rounded-full"
+        />
+        <span className="text-sm text-gray-800">{user.channelName || user.userName}</span>
       </div>
-    ))}
+    ) : (
+      <div className="px-4 text-gray-500 text-sm">No user logged in</div>
+    )}
   </div>
 );
 

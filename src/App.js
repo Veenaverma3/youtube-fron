@@ -9,8 +9,7 @@ import HomePage from "./Component/HomePage/HomePage";
 import Profile from "./Pages/Profile";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
-import EditVideo from "./Pages/Video/Editvideo";
-
+ 
 
 function App() {
   const [sideNavbar, setSideNavbar] = useState(true);

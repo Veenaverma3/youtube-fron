@@ -22,7 +22,7 @@ const Login = ({ setShowLogin }) => {
       const res = await axios.post(`${url}/auth/login`, loginField, {
         withCredentials: true,
       });
-
+      console.log('Login response:', res);
       const user = res.data.user;
 
       localStorage.setItem("token", res.data.token);
