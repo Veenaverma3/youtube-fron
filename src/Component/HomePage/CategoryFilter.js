@@ -9,7 +9,7 @@ const categories = [
 
 const CategoryFilter = ({ selectedCategory, onSelectCategory }) => {
   return (
-    <div className="w-full overflow-x-auto bg-white shadow-sm py-3 px-4">
+    <div className="w-full overflow-x-auto bg-white shadow-sm py-3 px-4 mb-4">
       <div className="flex gap-3 min-w-max">
         {categories.map((category) => (
           <button

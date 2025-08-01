@@ -62,31 +62,32 @@ const HomePage = ({ selectedCategory }) => {
               </span>
             </div>
 
-            <div className="flex mt-3 space-x-3">
-              <img
-                src={getValidImage(
-                  video.user?.profilePic,
-                  "/default-avatar.png"
-                )}
-                alt={video.user?.channelName || "Channel"}
-                className="w-9 h-9 rounded-full"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = "/default-avatar.png";
-                }}
-              />
-              <div>
-                <h3 className="text-sm font-semibold text-gray-900 line-clamp-2">
-                  {video.title}
-                </h3>
-                <p className="text-xs text-gray-600">
-                  {video.user?.channelName || "Unknown Channel"}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {formatDate(video.createdAt)}
-                </p>
-              </div>
-            </div>
+             <div className="flex mt-3 space-x-3">
+  <Link to={`/profile/${video.user?._id}`} className="shrink-0">
+    <img
+      src={getValidImage(video.user?.profilePic, "/default-avatar.png")}
+      alt={video.user?.channelName || "Channel"}
+      className="w-9 h-9 rounded-full"
+      onError={(e) => {
+        e.target.onerror = null;
+        e.target.src = "/default-avatar.png";
+      }}
+    />
+  </Link>
+  <div>
+    <h3 className="text-sm font-semibold text-gray-900 line-clamp-2">
+      {video.title}
+    </h3>
+    <Link
+      to={`/profile/${video.user?._id}`}
+      className="text-xs text-gray-600 hover:underline"
+    >
+      {video.user?.channelName || "Unknown Channel"}
+    </Link>
+    <p className="text-xs text-gray-500">{formatDate(video.createdAt)}</p>
+  </div>
+</div>
+
           </Link>
         ))
       )}
