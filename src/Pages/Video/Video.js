@@ -53,11 +53,11 @@ const VideoPage = () => {
         console.error("All videos fetch error", err);
       }
     };
-
+    
     fetchData();
-  }, [id]);
+   }, [id]);
 
-  const isOwner = currentUser?._id === video?.user?._id;
+  const isOwner = currentUser && video?.user?._id === currentUser._id;
   const suggestedVideos = video
     ? allVideos.filter((v) => v._id !== video._id)
     : [];
@@ -192,9 +192,13 @@ const VideoPage = () => {
 
           {currentUser ? (
             <div className="flex items-center gap-2 mb-4">
+              <img 
+              src={currentUser.profilePic}
+              alt="user"
+              className="w-8 h-8 rounded-full object-cover"
+              />
               <input
-                type="text"
-                className="w-full border rounded px-4 py-2"
+                 className="w-full border rounded px-4 py-2"
                 placeholder="Add a comment..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}

@@ -48,6 +48,7 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, handleUserAction }) => {
       setUserProfilePic(null);
       setShowLogin(true);
       setShowProfile(false);
+      window.location.href = "/";
     }
 
     if (handleUserAction) handleUserAction(type);

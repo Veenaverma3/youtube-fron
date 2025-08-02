@@ -98,9 +98,10 @@ const UploadVideo = () => {
         videoFile: null,
         thumbnail: null,
       });
+        navigate('/');
       setPreview(null);
-      navigate('/');
-    } catch (err) {
+     } 
+        catch (err) {
       console.error('Upload error:', err);
       toast.error('❌ Upload failed. Please try again.');
     } finally {
