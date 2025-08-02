@@ -12,7 +12,7 @@ const VideoPage = () => {
   const [video, setVideo] = useState(null);
   const [comments, setComments] = useState([]);
   const [message, setMessage] = useState("");
-  const [currentUser, setCurrentUser] = useState(null);
+  // const [currentUser, setCurrentUser] = useState(null);
   const [allVideos, setAllVideos] = useState([]);
 
   const fetchVideo = async () => {
@@ -36,12 +36,12 @@ const VideoPage = () => {
         await fetchVideo();
 
         // Fetch current user and all videos
-        const [userRes, allVideosRes] = await Promise.all([
-          axios.get(`${url}/auth/me`, { withCredentials: true }),
+        const [allVideosRes] = await Promise.all([
+          // axios.get(`${url}/auth/me`, { withCredentials: true }),
           axios.get(`${url}/api/allvideo`)
         ]);
 
-        setCurrentUser(userRes.data.user);
+        // setCurrentUser(userRes.data.user);
         setAllVideos(allVideosRes.data);
       } catch (err) {
         console.error("User or suggested videos fetch failed", err);
@@ -79,7 +79,7 @@ const VideoPage = () => {
   if (!video) return <div className="p-6 text-center">Loading video...</div>;
 
   const suggestedVideos = allVideos.filter((v) => v._id !== video._id);
-  const isOwner = currentUser?._id === video.user?._id;
+  // const isOwner = currentUser?._id === video.user?._id;
 
   return (
     <div className="flex flex-col lg:flex-row max-w-7xl mx-auto p-4 lg:space-x-6">
@@ -109,14 +109,14 @@ const VideoPage = () => {
             </div>
           </div>
 
-          {isOwner && (
+          
             <button
               onClick={handleDelete}
               className="flex items-center gap-2 px-3 py-2 rounded bg-red-200 text-red-700 hover:bg-red-300"
             >
               <DeleteOutline fontSize="small" /> Delete
             </button>
-          )}
+          
         </div>
 
         {/* Description */}
