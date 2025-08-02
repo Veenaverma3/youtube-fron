@@ -84,6 +84,7 @@ useEffect(() => {
       setMessage("");
       fetchVideo();
     } catch (err) {
+      console.log(err.response?.data|| err.message);
       alert("Login to comment.");
     }
   };
