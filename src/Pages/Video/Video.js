@@ -1,12 +1,8 @@
-  import React, { useEffect, useState } from "react";
+ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { url } from "../../Component/url";
-import {
-  ThumbUpOutlined,
-  ThumbDownOutlined,
-  DeleteOutline,
-} from "@mui/icons-material";
+import { DeleteOutline } from "@mui/icons-material";
 import SuggestedVideos from "./Suggestedvideo";
 
 const VideoPage = () => {
@@ -21,58 +17,39 @@ const VideoPage = () => {
 
   const fetchVideo = async () => {
     try {
-      const [videoRes, commentsRes] = await Promise.all([
-        axios.get(`${url}/api/getvideobyid/${id}`),
-        axios.get(`${url}/commentapi/comments/${id}`),
-      ]);
+      // Fetch current video
+      const videoRes = await axios.get(`${url}/api/getvideobyid/${id}`);
       setVideo(videoRes.data.video);
+
+      // Fetch comments
+      const commentsRes = await axios.get(`${url}/commentapi/getcomments/${id}`);
       setComments(commentsRes.data.comments);
     } catch (err) {
       console.error("Error fetching video or comments", err);
     }
   };
 
- useEffect(() => {
-  const fetchData = async () => {
-    try {
-      // Fetch current video
-      const videoRes = await axios.get(`${url}/api/getvideobyid/${id}`);
-      setVideo(videoRes.data.video);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch video and comments
+        await fetchVideo();
 
-      // Fetch current user and all videos simultaneously
-      const [userRes, allVideosRes] = await Promise.all([
-        axios.get(`${url}/auth/me`, { withCredentials: true }),
-        axios.get(`${url}/api/allvideo`)
-      ]);
+        // Fetch current user and all videos
+        const [userRes, allVideosRes] = await Promise.all([
+          axios.get(`${url}/auth/me`, { withCredentials: true }),
+          axios.get(`${url}/api/allvideo`)
+        ]);
 
-      setCurrentUser(userRes.data.user);
-      setAllVideos(allVideosRes.data);
-    } catch (err) {
-      console.error("User or suggested videos fetch failed", err);
-    }
-  };
+        setCurrentUser(userRes.data.user);
+        setAllVideos(allVideosRes.data);
+      } catch (err) {
+        console.error("User or suggested videos fetch failed", err);
+      }
+    };
 
-  if (id) fetchData(); // Run only if `id` is available
-}, [id]);
-
-
-  const handleLike = async () => {
-    try {
-      await axios.put(`${url}/api/like/${video._id}`, {}, { withCredentials: true });
-      fetchVideo();
-    } catch {
-      alert("Login to like the video.");
-    }
-  };
-
-  const handleDislike = async () => {
-    try {
-      await axios.put(`${url}/api/dislike/${video._id}`, {}, { withCredentials: true });
-      fetchVideo();
-    } catch {
-      alert("Login to dislike the video.");
-    }
-  };
+    if (id) fetchData();
+  }, [id]);
 
   const handleComment = async () => {
     if (!message.trim()) return;
@@ -83,7 +60,7 @@ const VideoPage = () => {
         { withCredentials: true }
       );
       setMessage("");
-      fetchVideo();
+      fetchVideo(); // Refresh comments
     } catch {
       alert("Login to comment.");
     }
@@ -132,29 +109,14 @@ const VideoPage = () => {
             </div>
           </div>
 
-          {/* Like/Dislike/Delete */}
-          <div className="flex gap-2">
+          {isOwner && (
             <button
-              onClick={handleLike}
-              className="flex items-center gap-2 px-3 py-2 rounded bg-gray-100 hover:bg-blue-100"
+              onClick={handleDelete}
+              className="flex items-center gap-2 px-3 py-2 rounded bg-red-200 text-red-700 hover:bg-red-300"
             >
-              <ThumbUpOutlined fontSize="small" /> {video.likes} Likes
+              <DeleteOutline fontSize="small" /> Delete
             </button>
-            <button
-              onClick={handleDislike}
-              className="flex items-center gap-2 px-3 py-2 rounded bg-gray-100 hover:bg-red-100"
-            >
-              <ThumbDownOutlined fontSize="small" /> Dislike
-            </button>
-            {isOwner && (
-              <button
-                onClick={handleDelete}
-                className="flex items-center gap-2 px-3 py-2 rounded bg-red-200 text-red-700 hover:bg-red-300"
-              >
-                <DeleteOutline fontSize="small" /> Delete
-              </button>
-            )}
-          </div>
+          )}
         </div>
 
         {/* Description */}
@@ -184,7 +146,9 @@ const VideoPage = () => {
           <div className="space-y-4">
             {comments.map((comment) => (
               <div key={comment._id} className="p-3 bg-white rounded shadow-sm">
-                <p className="text-sm font-semibold text-gray-700">{comment.user?.userName}</p>
+                <p className="text-sm font-semibold text-gray-700">
+                  {comment.user?.userName}
+                </p>
                 <p className="text-gray-600">{comment.message}</p>
               </div>
             ))}
