@@ -162,3 +162,58 @@ const Signup = () => {
 };
 
 export default Signup;
+
+
+
+/* 
+exports.signUp = async (req, res) => {
+  try {
+    const { channelName, userName, password, about, profilePic } = req.body;
+    const isExist = await User.findOne({ userName });
+
+    if (isExist) {
+      return res.status(400).json({ error: "User already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({
+      channelName,
+      userName,
+      password: hashedPassword,
+      about,
+      profilePic,
+    });
+
+    await user.save();
+
+    // 🔐 Create token just like in login
+    const token = jwt.sign({ userId: user._id }, 'veena', {
+      expiresIn: "90d",
+    });
+
+    // 🍪 Set cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+
+    // ✅ Return token and user info
+    res.status(201).json({
+      message: "User registered successfully",
+      success: true,
+      token,
+      user: {
+        _id: user._id,
+        userName: user.userName,
+        channelName: user.channelName,
+        profilePic: user.profilePic,
+      },
+    });
+  } catch (error) {
+    console.error("Signup Error:", error);
+    res.status(500).json({ error: "Server error during signup" });
+  }
+};
+
+*/
