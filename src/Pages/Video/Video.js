@@ -32,22 +32,29 @@ const VideoPage = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await fetchVideo();
-        const [userRes, allVideosRes] = await Promise.all([
-          axios.get(`${url}/auth/me`, { withCredentials: true }),
-          axios.get(`${url}/api/allvideo`),
-        ]);
-        setCurrentUser(userRes.data.user);
-        setAllVideos(allVideosRes.data);
-      } catch (err) {
-        console.error("User or suggested videos fetch failed", err);
-      }
-    };
-    fetchData();
-  }, [id]);
+ useEffect(() => {
+  const fetchData = async () => {
+    try {
+      // Fetch current video
+      const videoRes = await axios.get(`${url}/api/getvideobyid/${id}`);
+      setVideo(videoRes.data.video);
+
+      // Fetch current user and all videos simultaneously
+      const [userRes, allVideosRes] = await Promise.all([
+        axios.get(`${url}/auth/me`, { withCredentials: true }),
+        axios.get(`${url}/api/allvideo`)
+      ]);
+
+      setCurrentUser(userRes.data.user);
+      setAllVideos(allVideosRes.data);
+    } catch (err) {
+      console.error("User or suggested videos fetch failed", err);
+    }
+  };
+
+  if (id) fetchData(); // Run only if `id` is available
+}, [id]);
+
 
   const handleLike = async () => {
     try {
