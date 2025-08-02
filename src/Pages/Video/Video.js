@@ -78,7 +78,7 @@ useEffect(() => {
     try {
       await axios.post(
         `${url}/commentapi/comment`,
-        { video: video._id, message },
+        { message,videoId: video._id },
         { withCredentials: true }
       );
       setMessage("");
