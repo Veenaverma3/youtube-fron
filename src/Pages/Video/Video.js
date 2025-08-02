@@ -75,6 +75,7 @@ useEffect(() => {
 
   const handleComment = async () => {
     if (!message.trim()) return;
+    
     try {
       await axios.post(
         `${url}/commentapi/comment`,
@@ -159,22 +160,32 @@ useEffect(() => {
 
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-2">Comments</h3>
-          <div className="flex items-center gap-2 mb-4">
-            <input
-              type="text"
-              className="w-full border rounded px-4 py-2"
-              placeholder="Add a comment..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <button onClick={handleComment} className="bg-blue-600 text-white px-4 py-2 rounded">
-              Post
-            </button>
-          </div>
+          
+          {currentUser ? (
+  <>
+    <div className="flex items-center gap-2 mb-4">
+      <input
+        type="text"
+        className="w-full border rounded px-4 py-2"
+        placeholder="Add a comment..."
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+      <button onClick={handleComment} className="bg-blue-600 text-white px-4 py-2 rounded">
+        Post
+      </button>
+    </div>
+  </>
+) : (
+  <p className="text-sm text-gray-600 mb-4">You can post a comment anonymously.</p>
+)}
+
+
+
           <div className="space-y-4">
             {comments.map((comment) => (
               <div key={comment._id} className="p-3 bg-white rounded shadow-sm">
-                <p className="text-sm font-semibold text-gray-700">{comment.user?.userName}</p>
+                <p className="text-sm font-semibold text-gray-700">{comment.user?.userName || "Anonymous"}</p>
                 <p className="text-gray-600">{comment.message}</p>
               </div>
             ))}
