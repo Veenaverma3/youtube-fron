@@ -193,7 +193,7 @@ const VideoPage = () => {
           {currentUser ? (
             <div className="flex items-center gap-2 mb-4">
               <img 
-              src={currentUser.profilePic}
+              src={currentUser.profilePic || "default-profile.png"}
               alt="user"
               className="w-8 h-8 rounded-full object-cover"
               />
@@ -215,17 +215,22 @@ const VideoPage = () => {
           )}
 
           <div className="space-y-4">
-            {comments.map((comment) => (
-              <div
-                key={comment._id}
-                className="p-3 bg-white rounded shadow-sm border"
-              >
-                <p className="text-sm font-semibold text-gray-700">
-                  {comment.user?.userName || "Anonymous"}
-                </p>
-                <p className="text-gray-600">{comment.message}</p>
-              </div>
-            ))}
+          {comments.map((comment) => (
+  <div key={comment._id} className="p-3 bg-white rounded shadow-sm border flex gap-3 items-start">
+    <img
+      src={comment.user?.profilePic || "/default-profile.png"}
+      alt="commenter"
+      className="w-8 h-8 rounded-full object-cover"
+    />
+    <div>
+      <p className="text-sm font-semibold text-gray-700">
+        {comment.user?.userName || "Anonymous"}
+      </p>
+      <p className="text-gray-600">{comment.message}</p>
+    </div>
+  </div>
+))}
+
           </div>
         </div>
       </div>
