@@ -51,6 +51,7 @@ const VideoPage = () => {
         setAllVideos(allVideosRes.data);
       } catch (err) {
         console.error("All videos fetch error", err);
+          setCurrentUser(null);
       }
     };
     
