@@ -43,8 +43,7 @@ const VideoPage = () => {
         });
         setCurrentUser(userRes.data.user);
       } catch (err) {
-        console.error("User fetch error", err);
-      }
+       }
 
       try {
         const allVideosRes = await axios.get(`${url}/api/allvideo`);
