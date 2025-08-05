@@ -44,21 +44,20 @@ const UploadVideo = () => {
     }));
   };
 
- const uploadToCloudinary = async (file, type = 'image') => {
-  const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${type}/upload`;
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', UPLOAD_PRESET);
+  const uploadToCloudinary = async (file, type = 'image') => {
+    const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${type}/upload`;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', UPLOAD_PRESET);
 
-  const res = await fetch(cloudinaryUrl, {
-    method: 'POST',
-    body: formData,
-  });
+    const res = await fetch(cloudinaryUrl, {
+      method: 'POST',
+      body: formData,
+    });
 
-  const data = await res.json();
-  return data.secure_url;
-};
-
+    const data = await res.json();
+    return data.secure_url;
+  };
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -69,27 +68,37 @@ const UploadVideo = () => {
       return;
     }
 
+    // Validate file types
+    if (!videoFile.type.startsWith('video/')) {
+      toast.error('Uploaded file is not a valid video.');
+      return;
+    }
+    if (!thumbnail.type.startsWith('image/')) {
+      toast.error('Uploaded file is not a valid image.');
+      return;
+    }
+
     try {
       setUploading(true);
 
       const videoUrl = await uploadToCloudinary(videoFile, 'video');
       const thumbnailUrl = await uploadToCloudinary(thumbnail, 'image');
 
-    const normalizedCategory = typeof category === 'string' ? category.trim().toLowerCase() : '';
-  
-    await axios.post(
-  `${url}/api/upload`,
-  {
-    title: videoTitle,
-    description,
-    category: normalizedCategory,
-    videoFile: videoUrl,
-    thumbnail: thumbnailUrl
-  },
-  {
-    withCredentials: true
-  }
-);
+      const normalizedCategory = typeof category === 'string' ? category.trim().toLowerCase() : '';
+
+      await axios.post(
+        `${url}/api/upload`,
+        {
+          title: videoTitle,
+          description,
+          category: normalizedCategory,
+          videoFile: videoUrl,
+          thumbnail: thumbnailUrl,
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
       toast.success('🎉 Video uploaded successfully!');
       setInputField({
@@ -99,11 +108,10 @@ const UploadVideo = () => {
         videoFile: null,
         thumbnail: null,
       });
-        navigate('/');
       setPreview(null);
-     } 
-        catch (err) {
-       toast.error('❌ Upload failed. Please try again.');
+      navigate('/');
+    } catch (err) {
+      toast.error('❌ Upload failed. Please try again.');
     } finally {
       setUploading(false);
     }
