@@ -102,8 +102,7 @@ const UploadVideo = () => {
       setPreview(null);
      } 
         catch (err) {
-      console.error('Upload error:', err);
-      toast.error('❌ Upload failed. Please try again.');
+       toast.error('❌ Upload failed. Please try again.');
     } finally {
       setUploading(false);
     }
