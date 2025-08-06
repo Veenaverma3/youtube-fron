@@ -4,7 +4,7 @@ const categories = [
   'All', 'Music','Gaming', 'News', 'Sports', 'Movies', 'Podcasts',
   'Education', 'Fashion', 'Travel', 'Food',
   'Comedy', 'Art',
-  'VLogs', 'Fitness', 'Motivation'
+  'VLogs', 'Fitness', 'Motivation','Nature',
 ];
 
 const CategoryFilter = ({ selectedCategory, onSelectCategory }) => {

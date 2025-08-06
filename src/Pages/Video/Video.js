@@ -115,7 +115,16 @@ const VideoPage = () => {
     }
   };
 
-  if (!video) return <div className="p-6 text-center">Loading video...</div>;
+ if (!video) {
+  return (
+    <div className="flex items-center justify-center h-[60vh]">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+        <p className="text-lg font-semibold text-gray-600">Loading video...</p>
+      </div>
+    </div>
+  );
+}
 
   return (
     <div className="flex flex-col lg:flex-row max-w-7xl mx-auto p-4 lg:space-x-6">
