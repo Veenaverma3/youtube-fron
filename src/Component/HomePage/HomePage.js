@@ -35,8 +35,13 @@ const HomePage = ({ selectedCategory }) => {
   return (
     <div className="p-4 grid gap-6 sm:grid-cols-2 md:grid-cols-4 transition-all duration-300">
       {loading ? (
-        <p className="text-center col-span-full">Loading videos...</p>
-      ) : filteredVideos.length === 0 ? (
+   <div className="flex items-center justify-center h-[60vh]">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+        <p className="text-lg font-semibold text-gray-600">Loading video...</p>
+      </div>
+    </div>     
+     ) : filteredVideos.length === 0 ? (
         <p className="text-center col-span-full text-gray-500">
           No videos found in this category.
         </p>
