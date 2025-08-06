@@ -58,10 +58,11 @@ const Signup = () => {
 
       toast.success('Signup successful! Redirecting...');
       const user = response.data.user;
-
+        console.log('User signed up:', response.data);
       // Optional: Store minimal info for use in frontend
       localStorage.setItem("userId", user._id);
       localStorage.setItem("userProfilePic", user.profilePic);
+      localStorage.setItem("token", response.data.token);
 
       setTimeout(() => navigate(`/profile/${user._id}`), 2000);
     } catch (error) {
