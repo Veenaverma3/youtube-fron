@@ -43,7 +43,7 @@ const Login = ({ setShowLogin }) => {
 
   return (
     <div className="mt-28 mb-6 flex justify-center w-fit items-center m-auto px-4">
-      <div className="bg-white shadow-2xl rounded-xl w-full max-w-fit p-10 sm:p-16">
+      <div className="bg-linear-to-r from-pink-200 via-red-400 to-rose-600 shadow-2xl rounded-xl w-full max-w-fit p-10 sm:p-16">
         <div className="flex items-center justify-center space-x-2 mb-6">
           <YouTubeIcon sx={{ fontSize: 36, color: 'red' }} />
           <h1 className="text-2xl font-bold text-gray-800">Login</h1>
@@ -57,7 +57,7 @@ const Login = ({ setShowLogin }) => {
             value={loginField.userName}
             onChange={(e) => handleChange(e, 'userName')}
             placeholder="Enter your username"
-            className="w-full border border-gray-300 rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-red-400"
+            className="w-full border border-gray-300 bg-white rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-red-400"
             required
           />
         </div>
@@ -70,7 +70,7 @@ const Login = ({ setShowLogin }) => {
             value={loginField.password}
             onChange={(e) => handleChange(e, 'password')}
             placeholder="Enter your password"
-            className="w-full border border-gray-300 rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-red-400"
+            className="w-full border border-gray-300 bg-white rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-red-400"
             required
           />
         </div>
@@ -78,14 +78,14 @@ const Login = ({ setShowLogin }) => {
         <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={handleLogin}
-            className="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition disabled:opacity-60"
+            className="w-full bg-linear-to-r from-gray-800 via-rose-600 to-orange-500 text-white py-2 rounded-md hover:bg-red-600 transition disabled:opacity-60"
           >
             Login
           </button>
 
           <Link
             to="/signup"
-            className="w-full text-center bg-gray-100 text-gray-700 py-2 rounded-md hover:bg-gray-200 transition"
+            className="w-full text-center bg-linear-to-r from-gray-800 via-rose-600 to-orange-500 text-white py-2 rounded-md transition"
             onClick={handleCancel}
           >
             Signup
@@ -93,7 +93,7 @@ const Login = ({ setShowLogin }) => {
 
           <button
             onClick={handleCancel}
-            className="w-full bg-gray-200 text-gray-600 py-2 rounded-md hover:bg-gray-300 transition"
+            className="w-full bg-linear-to-r from-gray-800 via-rose-600 to-orange-500 text-white py-2 rounded-md hover:bg-gray-300 transition"
           >
             Cancel
           </button>

@@ -122,7 +122,7 @@ const UploadVideo = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4">
       <ToastContainer position="top-right" autoClose={3000} />
-      <form className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg" onSubmit={handleUpload}>
+      <form className="bg-linear-to-r from-orange-200 via-orange-300 to-orange-400 shadow-xl rounded-2xl p-8 w-full max-w-lg" onSubmit={handleUpload}>
         <div className="flex items-center justify-center space-x-2 mb-6">
           <YouTubeIcon sx={{ fontSize: 40, color: 'red' }} />
           <h1 className="text-2xl font-bold">Upload Video</h1>
@@ -136,7 +136,7 @@ const UploadVideo = () => {
             value={inputField.videoTitle}
             onChange={(e) => setInputField({ ...inputField, videoTitle: e.target.value })}
             placeholder="Enter video title"
-            className="w-full border border-gray-300 rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-red-400"
+            className="w-full border border-gray-300 rounded-md px-4 py-2 hover:outline-orange-900 focus:ring-2 focus:ring-red-400 bg-white"
           />
         </div>
 
@@ -148,7 +148,7 @@ const UploadVideo = () => {
             onChange={(e) => setInputField({ ...inputField, description: e.target.value })}
             placeholder="Enter video description"
             rows="3"
-            className="w-full border border-gray-300 rounded-md px-4 py-2 outline-none resize-none focus:ring-2 focus:ring-red-400"
+            className="w-full border border-gray-300 rounded-md px-4 py-2 outline-none resize-none focus:ring-2 focus:ring-red-400 bg-white"
           />
         </div>
 
@@ -160,7 +160,7 @@ const UploadVideo = () => {
             value={inputField.category}
             onChange={(e) => setInputField({ ...inputField, category: e.target.value })}
             placeholder="e.g. Education, Music, Comedy"
-            className="w-full border border-gray-300 rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-red-400"
+            className="w-full border border-gray-300  bg-white  rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-red-400"
           />
         </div>
 

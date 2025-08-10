@@ -11,7 +11,7 @@ import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
  
 
-function App() {
+ function App() {
   const [sideNavbar, setSideNavbar] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -27,7 +27,7 @@ function App() {
 
   return (
     <Router>
-      <div className="flex flex-col h-screen">
+      <div className="flex flex-col h-screen ">
         {/* Navbar always on top */}
         <Navbar
           setSideNavbarFunc={setSideNavbarFunc}
@@ -35,18 +35,17 @@ function App() {
           handleUserAction={handleUserAction}
         />
 
+        {/* CategoryFilter fixed at top under Navbar */}
+        <CategoryFilter
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+        />
+
         {/* Main section: Sidebar + Content */}
-        <div className="flex flex-grow overflow-hidden">
-          {sideNavbar && <SideNavbar />} {/* Sidebar on the left */}
+        <div className="flex flex-grow overflow-hidden pt-[2px] bg-gray-50">
+          {sideNavbar && <SideNavbar />}
 
           <div className="flex flex-col flex-grow overflow-y-auto">
-            {/* CategoryFilter at the top of content */}
-            <CategoryFilter
-              selectedCategory={selectedCategory}
-              onSelectCategory={setSelectedCategory}
-            />
-
-            {/* Routes below the filter */}
             <Routes>
               <Route
                 path="/"
@@ -58,16 +57,15 @@ function App() {
                 }
               />
               <Route path="/video/:id" element={<VideoPage />} />
-              <Route path="/profile/:userId" element={<Profile/>}/>
-              <Route path="/login" element={<Login/>}/>
-             <Route path="/signup" element={<Signup/>}/>
+              <Route path="/profile/:userId" element={<Profile />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
               <Route path="/upload" element={<UploadVideo />} />
-                     </Routes>
+            </Routes>
           </div>
         </div>
       </div>
     </Router>
   );
 }
-
-export default App;
+export default App; 

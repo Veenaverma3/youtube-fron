@@ -75,7 +75,7 @@ const Signup = () => {
 
   return (
     <div className="mt-28 mb-6 flex justify-center w-fit items-center m-auto px-4">
-      <div className="bg-white shadow-2xl rounded-xl w-full max-w-fit p-12">
+      <div className="bg-linear-to-r from-pink-200 via-red-400 to-rose-600 shadow-2xl rounded-xl w-full max-w-fit p-12">
         <div className="flex items-center justify-center space-x-2 mb-6">
           <YouTubeIcon sx={{ fontSize: 36, color: 'red' }} />
           <h1 className="text-2xl font-bold text-gray-800">Signup</h1>
@@ -89,7 +89,7 @@ const Signup = () => {
               value={formData.channelName}
               onChange={(e) => handleChange(e, 'channelName')}
               required
-              className="w-full border border-gray-300 rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-red-400"
+              className="w-full border border-red-950 bg-white rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-red-400"
               placeholder="Enter channel name"
             />
           </div>
@@ -101,7 +101,7 @@ const Signup = () => {
               value={formData.userName}
               onChange={(e) => handleChange(e, 'userName')}
               required
-              className="w-full border border-gray-300 rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-red-400"
+              className="w-full border  border-red-950 bg-white rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-red-400"
               placeholder="Enter username"
             />
           </div>
@@ -113,7 +113,7 @@ const Signup = () => {
               value={formData.password}
               onChange={(e) => handleChange(e, 'password')}
               required
-              className="w-full border border-gray-300 rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-red-400"
+              className="w-full border  border-red-950 bg-white rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-red-400"
               placeholder="Enter password"
             />
           </div>
@@ -124,7 +124,7 @@ const Signup = () => {
               value={formData.about}
               onChange={(e) => handleChange(e, 'about')}
               rows="3"
-              className="w-full border border-gray-300 rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-red-400"
+              className="w-full border  border-red-950 bg-white rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-red-400"
               placeholder="Tell us about your channel"
             />
           </div>
@@ -135,7 +135,7 @@ const Signup = () => {
               type="file"
               accept="image/*"
               onChange={(e) => setSelectedFile(e.target.files[0])}
-              className="w-full border border-gray-300 rounded-md py-2 px-2 bg-white"
+              className="w-full border border-gray-300 rounded-md py-2 px-2 bg-linear-to-r from-orange-600 via-amber-900 to-amber-950 text-white "
             />
           </div>
 
@@ -143,14 +143,14 @@ const Signup = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition disabled:opacity-60"
+              className="w-full text-white py-2 rounded-md transition disabled:opacity-60 bg-linear-to-r from-gray-800 via-rose-600 to-orange-500 hover:p-2 "
             >
               {isLoading ? 'Signing up...' : 'Signup'}
             </button>
 
             <Link
               to="/login"
-              className="w-full text-center bg-gray-100 text-gray-700 py-2 rounded-md hover:bg-gray-200 transition"
+              className="w-full text-center bg-linear-to-r from-gray-800 via-rose-600 to-orange-500 text-white py-2 rounded-md hover:p-2  transition"
             >
               Login
             </Link>

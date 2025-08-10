@@ -65,7 +65,7 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, handleUserAction }) => {
 
   return (
     <>
-      <div className="flex items-center justify-between px-4 py-2 bg-white shadow-md sticky top-0 z-50 w-full">
+      <div className="flex items-center justify-between px-4 py-2 bg-linear-to-r from-orange-200 via-pink-400 to-orange-400 shadow-md sticky top-0 z-50 w-full">
         {/* Left Section */}
         <div
           className="flex items-center space-x-4 cursor-pointer"
@@ -84,7 +84,7 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, handleUserAction }) => {
 
         {/* Center - Search */}
         <div className="hidden md:flex items-center space-x-2 flex-1 justify-center max-w-2xl">
-          <div className="flex items-center w-full border border-gray-300 rounded-full overflow-hidden">
+          <div className="flex items-center w-full border bg-slate-50 border-gray-300 rounded-md hover:outline-double overflow-hidden">
             <input
               type="text"
               placeholder="Search"

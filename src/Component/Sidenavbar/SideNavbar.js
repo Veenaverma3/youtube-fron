@@ -9,7 +9,7 @@ import {
 
 const SidebarItem = ({ icon: Icon, label, to }) => (
   <Link to={to} className="no-underline">
-    <div className="flex items-center space-x-4 px-4 py-2 hover:bg-gray-200 rounded-md cursor-pointer transition duration-200">
+    <div className="flex items-center space-x-4 px-4 py-2 hover:bg-linear-to-r from-red-200 via-rose-400 to-pink-600 rounded-md cursor-pointer transition duration-200">
       <Icon className="text-gray-700" />
       <span className="text-sm font-medium text-gray-800">{label}</span>
     </div>
@@ -33,13 +33,13 @@ const YOU_SECTION = [
 ];
 
 const SideNavbar = ({ user }) => (
-  <div className="w-80 h-full bg-white border-r p-2 space-y-3 overflow-y-auto hidden md:block">
+  <div className="w-80 h-full border-r p-2 space-y-3 overflow-y-auto hidden md:block">
     {MAIN_ITEMS.map((item) => (
       <SidebarItem key={item.label} {...item} />
     ))}
 
     <hr />
-    <div className="px-4 text-xs text-gray-500 font-semibold mt-2 flex items-center justify-between">
+    <div className="px-4 text-xs text-gray-500 font-semibold flex items-center justify-between">
       <span>You</span>
       <KeyboardArrowDownIcon fontSize="small" />
     </div>
@@ -53,7 +53,7 @@ const SideNavbar = ({ user }) => (
 
     {user ? (
       <div
-        className="flex items-center space-x-3 px-4 py-2 hover:bg-gray-200 rounded-md cursor-pointer"
+        className="flex items-center space-x-3 px-4 py-2 rounded-md cursor-pointer"
       >
         <img
           src={user?.profilePic || "/default-profile.png"}
