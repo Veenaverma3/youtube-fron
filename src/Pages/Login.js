@@ -4,7 +4,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, Link } from 'react-router-dom';
-import { url } from '../Component/url';
+import { url } from '../Component/url';              
 const Login = ({ setShowLogin }) => {
   const [loginField, setLoginField] = useState({ userName: '', password: '' });
   const navigate = useNavigate();
